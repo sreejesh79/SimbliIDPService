@@ -1,0 +1,66 @@
+{
+  "name": "zenlerauthserver",
+  "version": "1.0.0",
+  "description": "Authentication server for Zenler mobile application.",
+  "main": "dist/server.js",
+  "scripts": {
+    "start": "npm run lint && webpack --watch --config webpack.config.js",
+    "watch": "rm -rf dist && webpack --watch --config webpack.config.js",
+    "build:prod": "webpack --config webpack.config.prod.js",
+    "build": "webpack --config webpack.config.js",
+    "lint": "eslint -c .eslintrc.js --ext .ts ./src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://bitbucket.org/zenlerteam/zenler_mobile_apis.git"
+  },
+  "keywords": [
+    "zenler"
+  ],
+  "author": "Sreejesh R",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/zenlerteam/zenler_mobile_apis#readme",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.11.0",
+    "@typescript-eslint/parser": "^5.11.0",
+    "eslint": "^8.8.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jsdoc": "^37.8.2",
+    "eslint-plugin-prefer-arrow": "^1.2.3",
+    "nodemon": "^2.0.15",
+    "nodemon-webpack-plugin": "^4.7.1",
+    "ts-loader": "^9.2.6",
+    "ts-node": "^10.5.0",
+    "ts-node-dev": "^1.1.8",
+    "tsc-watch": "^4.6.0",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^4.5.5",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack": "^5.68.0",
+    "webpack-cli": "^4.9.2",
+    "webpack-watch-server": "^1.2.1"
+  },
+  "dependencies": {
+    "@sendgrid/mail": "^7.6.1",
+    "@types/cookie-parser": "^1.4.2",
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.13",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "express": "^4.17.2",
+    "firebase-admin": "^10.0.2",
+    "helmet": "^5.0.2",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^8.7.3",
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.2.41",
+    "underscore": "^1.13.2",
+    "winston": "^3.5.1"
+  },
+  "eslintConfig": {
+    "rules": {
+      "no-console": "off"
+    }
+  }
+}

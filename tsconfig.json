@@ -1,0 +1,29 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "esModuleInterop": true,
+        "target": "es2017",
+        "noImplicitAny": false,
+        "outDir": "./dist",
+        "sourceMap": true,
+        "experimentalDecorators": true,
+        "resolveJsonModule": true,
+        "baseUrl": "./src/",
+        "paths": {
+            "controllers/*": ["api/controllers/*"],
+            "entity/*": ["api/entity/*"],
+            "services/*": ["api/services/*"],
+            "middlewares/*": ["api/middlewares/*"],
+            "config/*": ["config/*"],
+            "responses/*": ["api/responses/*"],
+            "utils/*": ["utils/*"],
+            "common/*":["common/*"],
+        }
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "files": [
+        "./src/global.d.ts"
+    ]
+}
