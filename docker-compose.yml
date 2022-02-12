@@ -1,0 +1,15 @@
+
+version: '3.8'
+services:
+  simbliidp:
+    container_name: SimbliIDPService
+    hostname: simbliidp
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+    restart: always
+    network_mode: bridge
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/usr/src/app/:rw
