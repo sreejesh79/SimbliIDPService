@@ -3,10 +3,10 @@ import { IResponse } from "types";
 export class Forbidden implements IResponse {
     error = true;
     status = 400;
-    message = "Forbidden"
+    message = "Forbidden";
     data: any = {};
 
-    constructor(msg = '') {
+    constructor ( msg = '' ) {
         this.message = `${this.message} ${msg}`;
     }
 }

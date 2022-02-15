@@ -6,8 +6,8 @@ export class OK implements IResponse {
     status = 200;
     data: any = {};
     message = '';
-    
-    constructor(data: unknown) {
+
+    constructor ( data: unknown ) {
         this.data = data ;
     }
 }

@@ -1,26 +1,26 @@
 import {Entity, PrimaryColumn, Column } from "typeorm";
 
-@Entity("users")
+@Entity( "users" )
 export class Users {
-    @PrimaryColumn("varchar")
+    @PrimaryColumn( "varchar" )
     id: string;
 
-    @Column("varchar")
+    @Column( "varchar" )
     email: string;
 
-    @Column("varchar")
+    @Column( "varchar" )
     password: string;
 
-    @Column("varchar")
+    @Column( "varchar" )
     mobile: string;
 
-    @Column("varchar")
+    @Column( "varchar" )
     refresh_token: string;
 
-    @Column('timestamp')
+    @Column( 'timestamp' )
     created_at: number;
 
-    @Column('timestamp')
+    @Column( 'timestamp' )
     updated_at: number;
 
 }

@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 const fs = require('fs');
 const NodemonPlugin = require('nodemon-webpack-plugin');
-
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 const nodeModules = {};
 fs.readdirSync('node_modules')
@@ -30,7 +30,12 @@ module.exports = {
   },
   devtool: 'source-map',
   plugins: [
-  new NodemonPlugin()
+  new NodemonPlugin(),
+  new ESLintPlugin({
+    extensions: ["js", "ts"],
+    files: "src",
+    emitError: false
+  })
   ],
   resolve: {
     // Add `.ts` and `.tsx` as a resolvable extension.

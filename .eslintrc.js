@@ -117,8 +117,8 @@ module.exports = {
         "@typescript-eslint/prefer-namespace-keyword": "error",
         "@typescript-eslint/quotes": "off",
         "@typescript-eslint/semi": [
-            "off",
-            null
+            2,
+            'always'
         ],
         "@typescript-eslint/triple-slash-reference": [
             "error",
@@ -176,25 +176,25 @@ module.exports = {
             3
         ],
         "max-len": "off",
-        "new-parens": "off",
+        "new-parens": "error",
         "newline-per-chained-call": "off",
         "no-bitwise": "error",
         "no-caller": "error",
         "no-cond-assign": "error",
-        "no-console": "off",
+        "no-console": "error",
         "no-debugger": "error",
         "no-empty": "error",
         "no-empty-function": "error",
         "no-eval": "error",
-        "no-extra-semi": "off",
+        "no-extra-semi": "error",
         "no-fallthrough": "off",
-        "no-invalid-this": "off",
-        "no-irregular-whitespace": "off",
-        "no-multiple-empty-lines": "off",
+        "no-invalid-this": "error",
+        "no-irregular-whitespace": "error",
+        "no-multiple-empty-lines": ["error", { "max": 2, "maxBOF": 1}],
         "no-new-wrappers": "error",
         "no-shadow": "error",
         "no-throw-literal": "error",
-        "no-trailing-spaces": "off",
+        "no-trailing-spaces": "error",
         "no-undef-init": "error",
         "no-unsafe-finally": "error",
         "no-unused-expressions": "error",
@@ -207,7 +207,7 @@ module.exports = {
             "never"
         ],
         "padded-blocks": [
-            "off",
+            "error",
             {
                 "blocks": "never"
             },
@@ -231,10 +231,10 @@ module.exports = {
         ],
         "react/jsx-wrap-multilines": "off",
         "semi": "off",
-        "space-before-function-paren": "off",
+        "space-before-function-paren": "error",
         "space-in-parens": [
-            "off",
-            "never"
+            "error",
+            "always"
         ],
         "spaced-comment": [
             "error",
@@ -246,6 +246,6 @@ module.exports = {
             }
         ],
         "use-isnan": "error",
-        "valid-typeof": "off"
+        "valid-typeof": "error"
     }
 };

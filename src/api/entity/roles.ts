@@ -1,14 +1,14 @@
 import {Entity, PrimaryColumn, Column } from "typeorm";
 
-@Entity('roles')
+@Entity( 'roles' )
 export class Roles {
-    @PrimaryColumn('int')
+    @PrimaryColumn( 'int' )
     id: number;
 
-    @Column('varchar')
+    @Column( 'varchar' )
     machine_name: string;
 
-    @Column('varchar')
+    @Column( 'varchar' )
     name: string;
 
 }

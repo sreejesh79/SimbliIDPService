@@ -2,7 +2,7 @@ import { Connection } from "typeorm";
 
 export interface IDBService {
     connection: Connection;
-    getRepository(model: any):any;
+    getRepository( model: any ):any;
 }
 
 export interface IResponse {
