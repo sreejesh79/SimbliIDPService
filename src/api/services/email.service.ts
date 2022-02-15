@@ -4,7 +4,7 @@ import { IResponse } from "types";
 
 export interface IEmailService {
 
-    init():void;
+    init(): void;
     sendMail( from: string, to: string, subject: string, html: string ): Promise<IResponse>
 }
 

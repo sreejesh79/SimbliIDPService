@@ -9,7 +9,7 @@ export class DBService implements IDBService {
         return this.connection.getRepository( model );
     }
 
-    public find = async ( model: EntityTarget<unknown>, options: unknown = {} ):Promise<unknown> => {
+    public find = async ( model: EntityTarget<unknown>, options: unknown = {} ): Promise<unknown> => {
         try {
             const repo: Repository<unknown> = this.getRepository( model );
             const data: unknown = await repo.find( options );

@@ -9,8 +9,8 @@ class Utilityscripts {
     };
 
     public static checkExpiry = ( expiryDate: Date ): boolean => {
-        const currentDate:Date  = new Date();
-      //  console.log(expiryDate.getTime(), ':', currentDate.getTime());
+        const currentDate: Date  = new Date();
+        //  console.log(expiryDate.getTime(), ':', currentDate.getTime());
         return ( expiryDate.getTime() > currentDate.getTime() );
     };
 }
