@@ -8,7 +8,8 @@
     "watch": "rm -rf dist && webpack --watch --config webpack.config.js",
     "build:prod": "webpack --config webpack.config.prod.js",
     "build": "webpack --config webpack.config.js",
-    "lint": "eslint -c .eslintrc.js --ext .ts ./src"
+    "lint": "eslint -c .eslintrc.js --ext .ts ./src",
+    "lint:fix": "eslint -c .eslintrc.js --ext .ts ./src --fix"
   },
   "repository": {
     "type": "git",
@@ -18,7 +19,7 @@
     "zenler"
   ],
   "author": "Sreejesh R",
-  "license": "ISC",
+  "license": "MIT",
   "homepage": "https://bitbucket.org/zenlerteam/zenler_mobile_apis#readme",
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.11.0",
@@ -58,10 +59,5 @@
     "typeorm": "^0.2.41",
     "underscore": "^1.13.2",
     "winston": "^3.5.1"
-  },
-  "eslintConfig": {
-    "rules": {
-      "no-console": "off"
-    }
   }
 }

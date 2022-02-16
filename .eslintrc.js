@@ -128,10 +128,10 @@ module.exports = {
                 "lib": "always"
             }
         ],
-        "@typescript-eslint/type-annotation-spacing": "off",
+        "@typescript-eslint/type-annotation-spacing": "error",
         "@typescript-eslint/unified-signatures": "error",
         "arrow-parens": [
-            "off",
+            "error",
             "always"
         ],
         "brace-style": [
@@ -166,7 +166,7 @@ module.exports = {
         ],
         "id-match": "error",
         "import/order": "off",
-        "indent": "off",
+        "indent": ["error", "tab"],
         "jsdoc/check-alignment": "error",
         "jsdoc/check-indentation": "error",
         "jsdoc/newline-after-description": "error",
@@ -218,7 +218,7 @@ module.exports = {
         "prefer-arrow/prefer-arrow-functions": "error",
         "prefer-const": "error",
         "quote-props": "off",
-        "quotes": "off",
+        "quotes": ["error", "single", {"allowTemplateLiterals": true}],
         "radix": "error",
         "react/jsx-curly-spacing": "off",
         "react/jsx-equals-spacing": "off",
@@ -246,6 +246,20 @@ module.exports = {
             }
         ],
         "use-isnan": "error",
-        "valid-typeof": "error"
+        "valid-typeof": "error",
+        "array-callback-return": "error",
+        "for-direction": "error",
+        "getter-return": "error",
+        "no-async-promise-executor": "error",
+        "no-await-in-loop": "error",
+        "no-unexpected-multiline": "error",
+        "no-this-before-super": "error",
+        // "no-undef": "error",
+        "no-unreachable": "error",
+        "no-unreachable-loop": "error",
+        "no-unused-private-class-members": "error",
+        "no-unused-vars": "error",
+        "object-curly-spacing": [2, "always"],
+        "space-before-blocks": "error"
     }
 };

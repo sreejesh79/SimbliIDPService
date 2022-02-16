@@ -1,4 +1,4 @@
-import { Connection } from "typeorm";
+import { Connection } from 'typeorm';
 
 export interface IDBService {
     connection: Connection;

@@ -1,13 +1,13 @@
-import { IResponse } from "types";
+import { IResponse } from 'types';
 
 
 export class OK implements IResponse {
-    error = false;
-    status = 200;
-    data: any = {};
-    message = '';
+	error = false;
+	status = 200;
+	data: any = {};
+	message = '';
 
-    constructor ( data: unknown ) {
-        this.data = data ;
-    }
+	constructor ( data: unknown ) {
+		this.data = data ;
+	}
 }

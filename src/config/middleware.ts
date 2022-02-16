@@ -3,9 +3,9 @@ import express from 'express';
 
 class Middleware {
 
-    public static routes ( app: express.Application ): void {
-        app.all( "*",  loggerMiddleware );
-    }
+	public static routes ( app: express.Application ): void {
+		app.all( '*',  loggerMiddleware );
+	}
 }
 
 export default Middleware;

@@ -30,12 +30,13 @@ module.exports = {
   },
   devtool: 'source-map',
   plugins: [
-  new NodemonPlugin(),
   new ESLintPlugin({
-    extensions: ["js", "ts"],
-    files: "src",
-    emitError: false
-  })
+    files: 'src/**/*.ts',
+    emitError: true,
+    failOnWarning: true,
+    fix: true
+  }),
+  new NodemonPlugin()
   ],
   resolve: {
     // Add `.ts` and `.tsx` as a resolvable extension.
@@ -44,7 +45,7 @@ module.exports = {
         controllers: path.resolve(__dirname, 'src/api/controllers/'),
         models: path.resolve(__dirname, 'src/api/models/'),
         entities: path.resolve(__dirname, 'src/api/entities'),
-        services: path.resolve(__dirname, 'src/api/services/'),
+        services: path.resolve(__dirname, 'src/api/services'),
         middlewares: path.resolve(__dirname, 'src/api/middlewares/'),
         config: path.resolve(__dirname, 'src/config'),
         responses: path.resolve(__dirname, 'src/api/responses'),
