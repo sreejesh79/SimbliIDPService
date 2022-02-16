@@ -71,7 +71,7 @@ export class MASTERDBService extends DBService {
 	public static get instance (): MASTERDBService {
 		if ( !this._instance ) {
 			this._singleton = false;
-			this._instance = new MASTERDBService()
+			this._instance = new MASTERDBService();
 			this._singleton = true;
 		}
 		return this._instance;
