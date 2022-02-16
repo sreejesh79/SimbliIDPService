@@ -38,6 +38,10 @@ module.exports = {
   }),
   new NodemonPlugin()
   ],
+  watchOptions: {
+    poll: true,
+    ignored: /node_modules/
+  },
   resolve: {
     // Add `.ts` and `.tsx` as a resolvable extension.
     extensions: ['.ts', '.tsx', '.js'],
