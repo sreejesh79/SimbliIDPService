@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 const fs = require('fs');
 const NodemonPlugin = require('nodemon-webpack-plugin');
-const ESLintPlugin = require('eslint-webpack-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin'); 
 
 const nodeModules = {};
 fs.readdirSync('node_modules')
@@ -33,13 +33,13 @@ module.exports = {
   new ESLintPlugin({
     files: 'src/**/*.ts',
     emitError: true,
-    failOnWarning: true,
+    failOnWarning: false,
     fix: true
   }),
   new NodemonPlugin()
   ],
   watchOptions: {
-    poll: true,
+    poll: false,
     ignored: /node_modules/
   },
   resolve: {

@@ -33,7 +33,7 @@ module.exports = {
         "@typescript-eslint"
     ],
     "rules": {
-        "no-console": 0,
+        "no-console": "error",
         "@typescript-eslint/adjacent-overload-signatures": "error",
         "@typescript-eslint/array-type": [
             "error",
@@ -97,7 +97,7 @@ module.exports = {
             "format": ["PascalCase"],
             "prefix": ["is", "should", "has", "can", "did", "will"]
           }],
-        "@typescript-eslint/no-empty-function": "error",
+        "@typescript-eslint/no-empty-function": "off",
         "@typescript-eslint/no-empty-interface": "error",
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/no-misused-new": "error",
@@ -184,7 +184,7 @@ module.exports = {
         "no-console": "error",
         "no-debugger": "error",
         "no-empty": "error",
-        "no-empty-function": "error",
+        "no-empty-function": "off",
         "no-eval": "error",
         "no-extra-semi": "error",
         "no-fallthrough": "off",
@@ -258,7 +258,7 @@ module.exports = {
         "no-unreachable": "error",
         "no-unreachable-loop": "error",
         "no-unused-private-class-members": "error",
-        "no-unused-vars": "error",
+        "no-unused-vars": "off",
         "object-curly-spacing": [2, "always"],
         "space-before-blocks": "error"
     }

@@ -1,14 +1,20 @@
-import { MainController } from 'controllers/main.controller';
-import { Router } from 'express';
-import authRouter  from './routes/auth.router';
+/* eslint-disable */ 
+import { Application } from "express";
+import loggerMiddleware from '../api/middlewares/reqlogs.middleware';
 
-
-class RouterConfig {
-
-	public static routes ( router: Router ): any {
-		router.get( '/', MainController.index );
-		router.use( '/auth', authRouter );
-	}
+export interface RouteDefinition {
+	path: string;
+    method: 'get' | 'post' | 'delete' | 'put';
+    methodName: string;
 }
 
-export default RouterConfig;
+export const BASE_PATH: string = '/api';
+
+export const Middlewares = (app: Application): void => {
+    app.all( '*',  loggerMiddleware );
+}
+
+export const Controllers = () => {
+    require('../api/controllers/users.controller');
+    require('../api/controllers/roles.controller');
+}

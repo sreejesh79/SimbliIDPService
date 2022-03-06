@@ -1,8 +1,8 @@
-import { createConnections, ConnectionOptions, Connection } from 'typeorm';
-import { Users } from '../api/entity/users';
-import { Roles } from '../api/entity/roles';
-import logger from '../utils/logger';
-
+/* eslint-disable */ 
+import { createConnections, ConnectionOptions, Connection, getConnection } from 'typeorm';
+import { UsersEntity } from '../api/entity/users.entity';
+import { RolesEntity } from '../api/entity/roles.entity';
+import { Logger } from './logger';
 class DB {
 
 	public static readonly MASTER_DB_NAME: string = 'postgres';
@@ -19,12 +19,12 @@ class DB {
 			username: process.env.MASTER_DB_USER,
 			password: process.env.MASTER_DB_PASSWORD,
 			database: process.env.MASTER_DATABASE,
-			entities: [Users, Roles]
+			entities: [UsersEntity, RolesEntity]
 		};
 		this._connections = await createConnections( [
 			this._masterDB
 		] );
-		logger.info( `Master DB successfully connected to ${process.env.MASTER_DB_HOST}:${process.env.MASTER_DB_PORT}` );
+		console.log( '\x1b[35mINFO\x1b[0m', `Master DB successfully connected to ${process.env.MASTER_DB_HOST}:${process.env.MASTER_DB_PORT}` );
 	}
 
 	public static get connections (): any {
@@ -35,3 +35,7 @@ class DB {
 }
 
 export default DB;
+
+export const masterDBConnection = () => {
+	return getConnection( DB.MASTER_DB_NAME );
+};

@@ -1,3 +1,4 @@
+/* eslint-disable */ 
 import * as dotenv from 'dotenv';
 import * as path from 'path';
 
@@ -13,7 +14,6 @@ class Environment {
 			envSelfPath = path.join( global.__basepath as string, './.env.dev' );
 			Environment._envSelf = dotenv.config( { path: envSelfPath, debug: true } );
 		}
-
 		if ( Environment._envSelf.error ) {
 			throw Environment._envSelf.error;
 		}

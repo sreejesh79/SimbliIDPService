@@ -4,16 +4,20 @@
   "description": "Authentication server for Zenler mobile application.",
   "main": "dist/server.js",
   "scripts": {
-    "start": "npm run lint && webpack --watch --config webpack.config.js",
+    "start": "webpack --watch --config webpack.config.js",
     "watch": "rm -rf dist && webpack --watch --config webpack.config.js",
     "build:prod": "webpack --config webpack.config.prod.js",
     "build": "webpack --config webpack.config.js",
     "lint": "eslint -c .eslintrc.js --ext .ts ./src",
     "lint:fix": "eslint -c .eslintrc.js --ext .ts ./src --fix",
-    "precommit-msg": "echo 'Pre-commit checks...' && exit 0"
+    "precommit-msg": "echo 'Pre-commit checks...' && exit 0",
+    "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js"
   },
   "pre-commit": {
-    "run": [ "precommit-msg", "lint" ],
+    "run": [
+      "precommit-msg",
+      "lint"
+    ],
     "silent": true
   },
   "repository": {
@@ -54,16 +58,20 @@
     "@types/cookie-parser": "^1.4.2",
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
+    "config": "^3.3.7",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
+    "directory-import": "^2.3.1",
     "express": "^4.17.2",
+    "express-winston": "^4.2.0",
     "firebase-admin": "^10.0.2",
     "helmet": "^5.0.2",
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.7.3",
     "reflect-metadata": "^0.1.13",
+    "typedi": "^0.10.0",
     "typeorm": "^0.2.41",
     "underscore": "^1.13.2",
-    "winston": "^3.5.1"
+    "winston": "^3.6.0"
   }
 }

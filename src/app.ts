@@ -7,15 +7,18 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import helmet from 'helmet';
-// import * as dotenv from 'dot'
+import { Log, ErrorLog } from './config/logger';
 import Bootstrap from './config/bootstrap';
-import RouterConfig from './config/routes';
-import Middleware from './config/middleware';
 import DB from './config/db';
 import * as path from 'path';
 import * as fs from 'fs';
+import { Middlewares, Controllers } from './config/routes';
 
 import Environment from './config/environment';
+import { router } from './decorators/controller.decorator'
+import { ErrorHandler } from "config/errors";
+import { Logger } from 'config/logger';
+
 
 class App {
 
@@ -31,7 +34,10 @@ class App {
     
 
     private async config(app) {
-
+        Environment.init();
+        Logger.init();
+        // import controllers
+        Controllers();
         // middlewares
         app.use(helmet())
         // support application/json type post data
@@ -45,60 +51,30 @@ class App {
         // Enables cors   
         app.use(cors());
         // load secured environment vars;
-        Environment.init();
-        // routes
-        this.configRoutes(app);
-       // this.initErrorHandling(app);
-
+       
+        await DB.init();
+        Log(app);
+        // Middlewares
+        Middlewares(app);
+        app.use(router);
+        ErrorLog(app);
+        ErrorHandler.init(app);
         // db connection
        // await this.initDbConnections();
-       await DB.init();
+       
         // bootsrap before the server is up.
         await Bootstrap.init();
         this.listen();
     }
     
-    private configRoutes (app: express.Application){
-        Middleware.routes(app);
-        RouterConfig.routes(app);
-    }
-
-    private initErrorHandling (app: express.Application){
-        const isProduction = (process.env.NODE_ENV === 'production');
-
-        isProduction ? app.set('env', 'production') : app.set('env', 'development');
-        app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-            const err: any = new Error('Not A Valid url');
-            err.status = 404;
-            next(err);
-        });
-        if (app.get('env') === 'development') {
-            app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-                res.status(err.status || 500);
-                res.json({
-                    message: err.message,
-                    error: err
-                });
-            });
-        }
-        
-        app.use(function(err: any, req: express.Request, res: express.Response, next: Function) {
-            res.status(err.status || 500);
-            res.json({
-                message: err.message,
-                error: {}
-            });
-        });
-    }
-
     private listen() {
         this._port = process.env.PORT;
         const isProduction = (process.env.NODE_ENV === 'production');
         if (!isProduction) {
             const httpServer = http.createServer(this._app);
             httpServer.listen(this._port, () => {
-            console.log(`App listening on the http://localhost:${this._port}`)
-            // logger.info(`App listening on the http://localhost:${this._port}`);
+               // Logger.info(`App listening on the http://localhost:${this._port}`);
+               console.log('\x1b[35mINFO\x1b[0m',`App listening on  http://localhost:${this._port}`);
             })
         } else {
             const httpsServer = https.createServer({
@@ -106,8 +82,7 @@ class App {
                 cert: fs.readFileSync(process.env.SSL_CERT),
               }, this._app);
               httpsServer.listen(this._port, () => {
-                console.log(`App listening on the http://localhost:${this._port}`)
-                // logger.info(`App listening on the http://localhost:${this._port}`);
+                Logger.info(`App listening on the http://localhost:${this._port}`);
                 });
         }
         
