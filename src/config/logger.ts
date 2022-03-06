@@ -91,6 +91,10 @@ export class Logger {
     public static debug = (data: any) => {
         getLogger().debug(data);
     }
+
+    public static error = (data: any) => {
+        getLogger().error(data);
+    }
 }
 
 
