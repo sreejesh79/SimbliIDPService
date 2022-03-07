@@ -1,5 +1,5 @@
 {
-  "name": "zenlerauthserver",
+  "name": "express-boilerplate",
   "version": "1.0.0",
   "description": "Authentication server for Zenler mobile application.",
   "main": "dist/server.js",
