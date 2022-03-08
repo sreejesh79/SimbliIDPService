@@ -3,7 +3,7 @@ import { IResponse } from 'types';
 export class NotFound implements IResponse {
 	error = true;
 	statusCode = 404;
-	status = 'Not Found';
+	statusText = 'Not Found';
 	message = '';
 	data: any = {};
 
