@@ -19,7 +19,7 @@ export const Controller = ( prefix: string ): ClassDecorator => {
 		const routes: RouteDefinition[] = Reflect.getMetadata( 'routes', target );
 		const instance: any = Container.get( target );
 		routes.forEach( ( route: RouteDefinition ) => {
-			Logger.info(`Route registered : ${route.methodName} ${prefix}${route.path} with ${target.name}`);
+			Logger.info(`Route registered : ${route.method} ${prefix}${route.path} with ${target.name}.${route.methodName}()`);
 			router[route.method](`${BASE_PATH}${prefix}${route.path}`, instance[route.methodName].bind(instance))
 		} );
 	};

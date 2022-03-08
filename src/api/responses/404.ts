@@ -2,8 +2,9 @@ import { IResponse } from 'types';
 
 export class NotFound implements IResponse {
 	error = true;
-	status = 404;
-	message = 'Not Found';
+	statusCode = 404;
+	status = 'Not Found';
+	message = '';
 	data: any = {};
 
 	constructor ( msg = '' ) {

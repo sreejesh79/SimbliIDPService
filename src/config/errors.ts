@@ -8,13 +8,20 @@ export class ErrorHandler {
 
 	public static init = ( app: Application ) => {
 		app.use( ( err: any, req: Request, res: Response, next: NextFunction ) => {
-			const errResponse: IResponse = Responses[500]( err.message );
-			return res.status( errResponse.status ).json( errResponse );
+			const statusCode: number = err.statusCode ? err.statusCode : 500;
+			const errResponse: IResponse = Responses[statusCode]( err.message );
+			return res.status( errResponse.statusCode ).json( errResponse );
 		} );
 
 		app.use( ( req: Request, res: Response, next: NextFunction ) => {
 			const errResponse: IResponse = Responses[404]( 'Not a valid url.' );
-			return res.status( errResponse.status ).json( errResponse );
+			return res.status( errResponse.statusCode ).json( errResponse );
 		} );
 	};
+}
+
+export const throwError = (msg: string, statusCode: number) => {
+	const error: any = new Error(msg);
+	error.statusCode = statusCode;
+	throw error;
 }

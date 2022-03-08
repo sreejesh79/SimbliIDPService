@@ -66,7 +66,7 @@ module.exports = {
                 }
             }
         ],
-        "@typescript-eslint/consistent-type-assertions": "error",
+        "@typescript-eslint/consistent-type-assertions": "off",
         "@typescript-eslint/dot-notation": "off",
         "@typescript-eslint/indent": "off",
         "@typescript-eslint/member-delimiter-style": [

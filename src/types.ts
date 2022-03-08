@@ -7,8 +7,9 @@ export interface IDBService {
 
 export interface IResponse {
     error: boolean;
-    status: number;
-    data: any;
+    statusCode: number;
+    status?: string;
+    data?: any;
     message: string;
 }
 

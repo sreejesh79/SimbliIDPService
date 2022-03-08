@@ -2,11 +2,12 @@ import { IResponse } from 'types';
 
 export class Forbidden implements IResponse {
 	error = true;
-	status = 400;
-	message = 'Forbidden';
+	statusCode = 400;
+	status = 'Forbidden';
+	message = '';
 	data: any = {};
 
 	constructor ( msg = '' ) {
-		this.message = `${this.message} ${msg}`;
+		this.message = `${msg}`;
 	}
 }

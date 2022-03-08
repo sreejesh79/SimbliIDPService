@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { Logger  } from 'config/logger';
+import { throwError } from 'config/errors';
 
 const loggerMiddleware = ( req: Request, resp: Response, next: () => void ) => {
-	// console.log('Request logged:', req.method, req.path)
 	Logger.info( `Request logged: ${req.method} ${req.path}` );
 	next();
 };
