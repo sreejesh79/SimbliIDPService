@@ -16,6 +16,7 @@ import { Middlewares, Controllers } from './config/routes';
 
 import Environment from './config/environment';
 import { router } from './decorators/controller.decorator'
+import { mwRouter } from './decorators/middleware.decorator';
 import { ErrorHandler } from "config/errors";
 import { Logger } from 'config/logger';
 
@@ -36,6 +37,8 @@ class App {
     private async config(app) {
         Environment.init();
         Logger.init();
+        // Middlewares
+        Middlewares();
         // import controllers
         Controllers();
         // middlewares
@@ -54,8 +57,7 @@ class App {
        
         await DB.init();
         Log(app);
-        // Middlewares
-        Middlewares(app);
+        app.use(mwRouter);
         app.use(router);
         ErrorLog(app);
         ErrorHandler.init(app);

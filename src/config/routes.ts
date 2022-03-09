@@ -1,17 +1,18 @@
 /* eslint-disable */ 
-import { Application } from "express";
-import loggerMiddleware from '../api/middlewares/reqlogs.middleware';
+import express from "express";
 
 export interface RouteDefinition {
 	path: string;
-    method: 'get' | 'post' | 'delete' | 'put';
+    method: 'get' | 'post' | 'delete' | 'put' | 'use' | 'all';
     methodName: string;
 }
 
 export const BASE_PATH: string = '/api';
+const router = express.Router();
+export const Middlewares = (): void => {
+    require("../api/middlewares/api.middleware");
+    require("../api/middlewares/user.middleware");
 
-export const Middlewares = (app: Application): void => {
-    app.all( '*',  loggerMiddleware );
 }
 
 export const Controllers = () => {
