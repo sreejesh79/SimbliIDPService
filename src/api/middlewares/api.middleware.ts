@@ -18,10 +18,5 @@ export  class APIMiddleware {
 			Logger.info( `Request logged: ${req.method} ${req.path}` );
 			next();
 		};
-
-	public static testLogger = ( req: Request, resp: Response, next: NextFunction ) => {
-		Logger.info( `Request logged: ${req.method} ${req.path}` );
-		next();
-	};
 }
 
