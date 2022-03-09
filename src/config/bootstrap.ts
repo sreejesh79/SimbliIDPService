@@ -1,8 +1,9 @@
+import  { sendgridInit } from '../api/services/email.service';
 
 class Bootstrap {
 
-	public static init = async (): Promise<any> => {
-		// SendGridService.instance.init();
+	public static init =  () => {
+		sendgridInit();
 	};
 }
 

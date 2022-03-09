@@ -1,5 +1,4 @@
 /* eslint-disable */ 
-// import { Router } from 'express';
 import express from 'express';
 import Container from 'typedi';
 import winston from 'winston';
@@ -7,7 +6,6 @@ import { Logger } from '../config/logger';
 import { RouteDefinition } from '../config/routes';
 import { BASE_PATH } from '../config/routes';
 
-// const logger: winston.Logger = Logger.getLogger;
 export const router = express.Router();
 const app: express.Application = express();
 

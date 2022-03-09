@@ -1,5 +1,4 @@
 /* eslint-disable */ 
-import express from "express";
 
 export interface RouteDefinition {
 	path: string;
@@ -18,4 +17,5 @@ export const Controllers = () => {
     require('../api/controllers/main.controller');
     require('../api/controllers/users.controller');
     require('../api/controllers/roles.controller');
+    require('../api/controllers/email.controller');
 }

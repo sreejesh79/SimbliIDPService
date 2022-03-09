@@ -1,41 +1,22 @@
 import Responses from 'config/responses';
 import  sgMail, { MailDataRequired } from '@sendgrid/mail';
 import { IResponse } from 'types';
-
-export interface IEmailService {
-
-    init(): void;
-    sendMail( from: string, to: string, subject: string, html: string ): Promise<IResponse>
-}
-
-export class SendGridService implements IEmailService {
-	private static _singleton = true;
-	private static _instance: SendGridService;
+import { EmailDTO } from 'api/dto/email.dto';
+import { Service } from 'typedi';
 
 
-	constructer () {
-		if ( SendGridService._singleton ) {
-			throw new SyntaxError( 'This is a singleton class. Please use SendGridService.instance instead!' );
-		}
-	}
+export const sendgridInit = (): void => {
+	sgMail.setApiKey( process.env.SENDGRID_API_KEY );
+};
 
-	public static get instance (): SendGridService {
-		if ( !this._instance ) {
-			this._singleton = false;
-			this._instance = new SendGridService();
-			this._singleton = true;
-		}
-		return this._instance;
-	}
+@Service()
+export class SendGridService  {
 
-	public init = (): void => {
-		// console.log("process.env.SENDGRID_API_KEY", process.env.SENDGRID_API_KEY);
-		sgMail.setApiKey( process.env.SENDGRID_API_KEY );
-	};
 
-	public sendMail = async ( from: string, to: string, subject: string, html: string ): Promise<IResponse> => {
+	public sendMail = async ( data: EmailDTO ): Promise<IResponse> => {
 		//  console.log(to, from, subject, html);
-		const mailData: MailDataRequired = { to, from, subject, html };
+		// const mailData: MailDataRequired = { to, from, subject, html };
+		const mailData: MailDataRequired = <MailDataRequired>data;
 		try {
 			const response: unknown = await sgMail.send( mailData );
 			return Responses[200]( response );
