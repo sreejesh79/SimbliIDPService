@@ -15,6 +15,7 @@ export const Middlewares = (): void => {
 
 export const Controllers = () => {
     require('../api/controllers/main.controller');
+    require('../api/controllers/auth.controller');
     require('../api/controllers/users.controller');
     require('../api/controllers/roles.controller');
     require('../api/controllers/email.controller');

@@ -4,7 +4,7 @@
   "description": "Authentication server for Zenler mobile application.",
   "main": "dist/server.js",
   "scripts": {
-    "start": "webpack --watch --config webpack.config.js",
+    "start": "webpack --watch --config webpack.config.js --progress",
     "watch": "rm -rf dist && webpack --watch --config webpack.config.js",
     "build:prod": "webpack --config webpack.config.prod.js",
     "build": "webpack --config webpack.config.js",
@@ -68,6 +68,7 @@
     "firebase-admin": "^10.0.2",
     "helmet": "^5.0.2",
     "jsonwebtoken": "^8.5.1",
+    "otp-generator": "^2.0.0",
     "pg": "^8.7.3",
     "reflect-metadata": "^0.1.13",
     "typedi": "^0.10.0",
