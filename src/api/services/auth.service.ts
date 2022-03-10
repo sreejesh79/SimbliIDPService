@@ -9,6 +9,7 @@ import { Messages, Utils } from 'config/constants';
 import { IResponse } from 'types';
 import { TokenUtils } from '../../utils/token.utils';
 import Responses from 'config/responses';
+import { Logger } from 'config/logger';
 
 @Service()
 export class AuthService {
@@ -42,5 +43,16 @@ export class AuthService {
 			}
 		}
 		return emailResponse;
+	};
+
+	public verifyOtp = async ( data: OtpDTO ): Promise<IResponse> => {
+		const currentTime: number = new Date().getTime();
+		Logger.debug( currentTime );
+		const result: IBaseEntity = await this._emailOtpRepo.getByOTP( data.email, data.otp, currentTime );
+		if ( result && result.id ) {
+			return Responses[200]( result );
+		} else {
+			return Responses[400]( this._messages.INVALID_VERIFYOTP );
+		}
 	};
 }

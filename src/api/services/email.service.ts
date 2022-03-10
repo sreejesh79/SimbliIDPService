@@ -26,7 +26,6 @@ export class SendGridService  {
 				return Responses[200]( {} );
 			}
 		} catch ( e: unknown ) {
-			// console.log(e);
 			return Responses[500]( e.toString() );
 		}
 	};

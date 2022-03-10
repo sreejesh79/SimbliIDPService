@@ -10,6 +10,7 @@ export const BASE_PATH: string = '/api';
 export const Middlewares = (): void => {
     require("../api/middlewares/api.middleware");
     require("../api/middlewares/user.middleware");
+    require("../api/middlewares/otp.middleware");
 
 }
 

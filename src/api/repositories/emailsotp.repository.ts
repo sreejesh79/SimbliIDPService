@@ -1,5 +1,5 @@
 import { OtpDTO } from 'api/dto/otp.dto';
-import { Repository } from 'typeorm';
+import { LessThan, MoreThan, Repository } from 'typeorm';
 import { EmailsotpEntity } from '../entity/emailsotp.entity';
 import { Service } from 'typedi';
 import { masterDBConnection } from '../../config/db';
@@ -33,4 +33,8 @@ export class EmailsOTPRepository implements IRepository {
 		return result;
 	};
 
+	public getByOTP = async ( email: string, otp: string, currentTime: number ): Promise<EmailsotpEntity> => {
+		const verifyOtp: EmailsotpEntity = await this.getRepository().findOne( { email, otp, expiry: MoreThan( currentTime ) } );
+		return verifyOtp;
+	};
 }

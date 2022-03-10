@@ -22,4 +22,14 @@ export default class AuthController {
     			next( e );
     		}
     	};
+
+        @Post( '/otp/verify' )
+    public verifyOtp = async ( req: Request, res: Response, next: NextFunction ) => {
+        		try {
+        			const response: IResponse = await this._authService.verifyOtp( <OtpDTO>req.body );
+    			    return res.status( response.statusCode ).json( response );
+        		} catch ( e ) {
+        			next( e );
+        		}
+        	};
 }
