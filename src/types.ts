@@ -13,19 +13,23 @@ export interface IResponse {
     message: string;
 }
 
-export interface IUser {
-    uid: number;
+export interface IUserResponse {
+    id: number;
     email: string;
-
-}
-
-export interface IAccess {
-    user: IUser;
+    mobile: string;
+    password? :string;
     refresh_token: string;
-    access_token: string;
+    access_token?: string;
+    created_at: number;
+    updated_at: number;
 }
 
-export interface IOtpAccess {
-    otp_token: string;
-    otp: string;
+export {};
+
+declare global {
+  namespace Express {
+    interface Request {
+      user: IUserResponse;
+    }
+  }
 }

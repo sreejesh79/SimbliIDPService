@@ -5,11 +5,13 @@ import { OtpDTO } from '../dto/otp.dto';
 import { EmailsOTPRepository } from '../repositories/emailsotp.repository';
 import { EmailDTO } from '../dto/email.dto';
 import { SendGridService } from './email.service';
-import { Messages, Utils } from 'config/constants';
-import { IResponse } from 'types';
+import { Expiries, Messages } from 'config/constants';
+import { IResponse, IUserResponse } from 'types';
 import { TokenUtils } from '../../utils/token.utils';
 import Responses from 'config/responses';
 import { Logger } from 'config/logger';
+import { LamdaUtils } from '../../utils/lamda.utils';
+import { KMSSignResponse } from '../dto/lamda.dto';
 
 @Service()
 export class AuthService {
@@ -19,13 +21,15 @@ export class AuthService {
         private _tokenUtils: TokenUtils,
         private _emailService: SendGridService,
         private _messages: Messages,
-        private _utils: Utils
+		private _lamdaUtils: LamdaUtils,
+		private _expiries: Expiries
 	) { }
 
 	public sendOtp = async ( data: OtpDTO ): Promise<IResponse> => {
 		const otp: string = this._utilityScripts.generateOTP();
 		const otpToken: string = this._tokenUtils.generateOtpAccessToken( data.email );
-		const expiry: number = this._utilityScripts.generateExpiry( this._utils.OTP_EXPIRY );
+		Logger.debug( otpToken );
+		const expiry: number = this._utilityScripts.generateExpiry( this._expiries.OTP_EXPIRY );
 		const dataCopy: OtpDTO = { ...data, otp, otp_token: otpToken, expiry };
 		const emailData: EmailDTO = <EmailDTO>{
 			from: process.env.FROM_EMAIL,
@@ -47,12 +51,17 @@ export class AuthService {
 
 	public verifyOtp = async ( data: OtpDTO ): Promise<IResponse> => {
 		const currentTime: number = new Date().getTime();
-		Logger.debug( currentTime );
 		const result: IBaseEntity = await this._emailOtpRepo.getByOTP( data.email, data.otp, currentTime );
 		if ( result && result.id ) {
-			return Responses[200]( result );
+			const registerToken: string = this._tokenUtils.generateRegisterToken( data.email );
+			return Responses[200]( registerToken );
 		} else {
 			return Responses[400]( this._messages.INVALID_VERIFYOTP );
 		}
+	};
+
+	public newAccessToken = async ( user: IUserResponse ): Promise<string> => {
+		const accessToken: KMSSignResponse = await this._tokenUtils.generateAccessToken( user.email );
+		return accessToken.token;
 	};
 }

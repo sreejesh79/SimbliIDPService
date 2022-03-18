@@ -8,8 +8,8 @@ import { Service } from 'typedi';
 @Service()
 export class UserMiddleware {
 
-    @Use( '/' )
-	public register = ( req: Request, res: Response, next: NextFunction ) => {
+    @Use( '/register' )
+	public registerAuth = ( req: Request, res: Response, next: NextFunction ) => {
     		Logger.info( 'I am in register' );
     		next();
     	};

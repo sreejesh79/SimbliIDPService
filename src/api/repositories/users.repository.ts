@@ -24,7 +24,8 @@ export class UsersRepository implements IRepository {
 	};
 
 	public save = async ( data: UsersDTO ): Promise<UsersEntity> => {
-		const user: UsersEntity = await this.getRepository().save( data );
+		const userInstance = this.getRepository().create( data );
+		const user: UsersEntity = await this.getRepository().save( userInstance );
 		return user;
 	};
 }

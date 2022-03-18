@@ -1,9 +1,9 @@
-import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 export interface IBaseEntity {
     id: number;
-    createdAt: number;
-    updatedAt: number;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 @Entity()
@@ -14,9 +14,9 @@ export class BaseEntity implements IBaseEntity {
     @PrimaryGeneratedColumn( 'increment' )
     	id: number;
 
-    @Column( { name: 'created_at', type: 'int' } )
-    	createdAt: number;
+        @CreateDateColumn( { name: 'created_at', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' } )
+    	createdAt: Date;
 
-    @Column( { name: 'updated_at', type: 'int' } )
-    	updatedAt: number;
+        @UpdateDateColumn( { name: 'updated_at', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)', onUpdate: 'CURRENT_TIMESTAMP(6)' } )
+    	updatedAt: Date;
 }

@@ -29,7 +29,6 @@ export class OTPMiddleware {
     			if ( verifyResponse.error ) {
     				return res.status( deniedResponse.statusCode ).json( deniedResponse );
     			} else {
-    				Logger.debug( verifyResponse.data );
     				const payload: IPayload = <IPayload>verifyResponse.data;
     				if ( payload.email === body.email ) {
     					 next();
