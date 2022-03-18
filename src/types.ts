@@ -1,3 +1,5 @@
+/* eslint-disable */ 
+
 import { Connection } from 'typeorm';
 
 export interface IDBService {
