@@ -1,4 +1,6 @@
 import { UsersRegisterDTO } from 'api/dto/users.dto';
+import { IBaseEntity } from 'entity/baseentity';
+import { RolesEntity } from 'entity/roles.entity';
 import { Service } from 'typedi';
 import { Repository } from 'typeorm';
 import { masterDBConnection } from '../../config/db';
@@ -23,9 +25,10 @@ export class UsersRepository implements IRepository {
 		return user;
 	};
 
-	public save = async ( data: UsersRegisterDTO ): Promise<UsersEntity> => {
-		const userInstance = this.getRepository().create( data );
-		const user: UsersEntity = await this.getRepository().save( userInstance );
-		return user;
+	public save = async ( data: UsersRegisterDTO, role: IBaseEntity ): Promise<UsersEntity> => {
+		const userInstance: UsersEntity = this.getRepository().create( data );
+		const roleData: RolesEntity = <RolesEntity>role;
+		userInstance.roles = [roleData];
+		return await this.getRepository().save( userInstance );
 	};
 }

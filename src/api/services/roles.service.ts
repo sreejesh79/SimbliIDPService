@@ -11,4 +11,8 @@ export class RolesService {
 		const roles: IBaseEntity[] = await this._rolesRepository.get();
 		return roles;
 	};
+
+	public getByMachineName = async ( machine_name: string ): Promise<IBaseEntity> => {
+		return this._rolesRepository.getByMachineName( machine_name );
+	};
 }

@@ -1,5 +1,6 @@
-import { Entity, Column } from 'typeorm';
+import { Entity, Column, ManyToMany } from 'typeorm';
 import { BaseEntity } from './baseentity';
+import { UsersEntity } from './users.entity';
 
 export interface IRolesEntity {
     id: number;
@@ -15,5 +16,8 @@ export class RolesEntity extends BaseEntity implements IRolesEntity {
 
     @Column( 'varchar' )
     	name: string;
+
+    @ManyToMany( () => UsersEntity, ( users ) => users.roles )
+    	users: UsersEntity[];
 
 }

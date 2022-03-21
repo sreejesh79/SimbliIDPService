@@ -1,10 +1,11 @@
 import { Service } from 'typedi';
-import { Entity, Column, AfterLoad, BeforeInsert } from 'typeorm';
+import { Entity, Column, AfterLoad, BeforeInsert, ManyToMany, JoinTable } from 'typeorm';
 import { TokenUtils } from '../../utils/token.utils';
 import { PasswordUtils } from '../../utils/password.utils';
 import { BaseEntity } from './baseentity';
 import { Logger } from 'config/logger';
 import bcrypt from 'bcrypt';
+import { RolesEntity } from './roles.entity';
 
 export interface IUsersEntity {
     email: string;
@@ -28,6 +29,10 @@ export class UsersEntity extends BaseEntity implements IUsersEntity {
 
     @Column( 'varchar' )
     	refresh_token: string;
+
+    @ManyToMany( () => RolesEntity, ( roles ) => roles.users )
+    @JoinTable()
+    	roles: RolesEntity[];
 
     @BeforeInsert()
     async hashPassword () {

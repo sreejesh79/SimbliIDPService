@@ -16,4 +16,9 @@ export class RolesRepository implements IRepository {
 		const result: RolesEntity[] = await this.getRepository().find();
 		return result;
 	};
+
+	public getByMachineName = async ( machine_name: string ): Promise<RolesEntity> => {
+		const result: RolesEntity = await this.getRepository().findOne( { machine_name } );
+		return result;
+	};
 }

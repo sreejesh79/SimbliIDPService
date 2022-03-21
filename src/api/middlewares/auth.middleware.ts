@@ -49,7 +49,7 @@ export class AuthMiddleware {
     		}
     	};
 
-	@Use( '/register' )
+	@Use( '/register/temp' )
     public verifyRegisterToken =  ( req: Request, res: Response, next: NextFunction ) => {
 			const deniedResponse: IResponse = Responses[403]( this._messages.INVALID_TOKEN );
 			const badreqResponse: IResponse = Responses[400]( this._messages.TOKEN_BADREQUEST );
