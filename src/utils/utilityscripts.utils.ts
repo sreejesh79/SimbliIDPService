@@ -17,4 +17,9 @@ export class UtilityScripts {
 		const expiryTime: number = futureDate.getTime();
 		return expiryTime;
 	}
+
+	public validateMobile = (mobile: string): boolean => {
+		const regex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+  		return regex.test(mobile);
+	}
 }

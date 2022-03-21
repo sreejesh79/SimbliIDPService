@@ -10,6 +10,8 @@ import UsersService from '../services/users.service';
 import { Messages } from 'config/constants';
 import { IUserDTO, UsersRegisterDTO } from '../dto/users.dto';
 import { PasswordUtils } from '../../utils/password.utils';
+import * as validator from 'email-validator';
+import { UtilityScripts } from '../../utils/utilityscripts.utils';
 
 @Middleware( '/api/auth' )
 @Service()
@@ -18,7 +20,8 @@ export class AuthMiddleware {
         private _tokenUtils: TokenUtils,
         private _usersService: UsersService,
 		private _messages: Messages,
-		private _passwordUtils: PasswordUtils
+		private _passwordUtils: PasswordUtils,
+		private _utilityScripts: UtilityScripts
 	) {}
     @Use( '/token/refresh' )
 	public validateRefreshToken = async ( req: Request, res: Response, next: NextFunction ) => {
@@ -49,14 +52,24 @@ export class AuthMiddleware {
     		}
     	};
 
-	@Use( '/register/temp' )
+	@Use( '/register' )
     public verifyRegisterToken =  ( req: Request, res: Response, next: NextFunction ) => {
 			const deniedResponse: IResponse = Responses[403]( this._messages.INVALID_TOKEN );
 			const badreqResponse: IResponse = Responses[400]( this._messages.TOKEN_BADREQUEST );
+			const badReqEmail: IResponse = Responses[400]( 'Invalid Email ID' );
+			const badReqMobile: IResponse = Responses[400]( 'Invalid Mobile number' );
+			const body: UsersRegisterDTO = <UsersRegisterDTO>req.body;
+			const isEmailValid: boolean = body.email && validator.validate( body.email );
+			if ( !isEmailValid ) {
+				return res.status( badReqEmail.statusCode ).json( badReqEmail );
+			}
+			const isMobileValid: boolean = body.mobile && this._utilityScripts.validateMobile( body.mobile );
+			if ( !isMobileValid ) {
+				return res.status( badReqMobile.statusCode ).json( badReqMobile );
+			}
 			if ( req.headers['x-register-token'] ) {
 				const registerToken: string = req.headers['x-register-token'].toLocaleString();
     			const verifyResponse: IResponse = this._tokenUtils.verifyRegisterToken( registerToken );
-				const body: UsersRegisterDTO = <UsersRegisterDTO>req.body;
 				if ( verifyResponse.error ) {
     				return res.status( deniedResponse.statusCode ).json( deniedResponse );
     			} else {
