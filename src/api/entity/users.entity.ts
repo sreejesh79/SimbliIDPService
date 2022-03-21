@@ -20,7 +20,7 @@ export class UsersEntity extends BaseEntity implements IUsersEntity {
     @Column( 'varchar' )
     	email: string;
 
-    @Column( { type: 'varchar', select: false } )
+    @Column( { type: 'varchar' } )
     	password: string;
 
     @Column( 'varchar' )
@@ -36,7 +36,7 @@ export class UsersEntity extends BaseEntity implements IUsersEntity {
 
     @AfterLoad()
     deletePassword () {
-    	delete this.password;
+    	// delete this.password;
     }
 
 }

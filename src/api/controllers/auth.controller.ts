@@ -1,12 +1,12 @@
 import { Controller } from '../../decorators/controller.decorator';
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction, json } from 'express';
 import { Service } from 'typedi';
 import { Get, Post } from '../../decorators/route.decorator';
-import { IResponse, IUserResponse } from 'types';
+import { IResponse } from 'types';
 import { AuthService } from '../services/auth.service';
 import { OtpDTO } from '../dto/otp.dto';
 import UsersService from '../services/users.service';
-import { UsersDTO } from 'api/dto/users.dto';
+import { IUserDTO, UsersRegisterDTO } from '../dto/users.dto';
 import Responses from 'config/responses';
 import { Logger } from 'config/logger';
 
@@ -41,7 +41,7 @@ export default class AuthController {
 	@Post( '/register' )
         public save = async ( req: Request, res: Response, next: NextFunction ) => {
 			try {
-				const response: IUserResponse = await this._userService.save( <UsersDTO>req.body );
+				const response: IUserDTO = await this._userService.save( <UsersRegisterDTO>req.body );
 				if ( response && response.id ) {
 					return res.json( Responses[200]( response ) );
 				} else {
@@ -57,12 +57,27 @@ export default class AuthController {
 			try {
 				Logger.debug( req.user );
 				// res.json( req.user );
-				const user: IUserResponse = req.user;
+				const user: IUserDTO = req.user;
 				const response: string = await this._authService.newAccessToken( user );
 				if ( response ) {
 					return res.json( Responses[200]( response ) );
 				} else {
-					return res.json( Responses[500]( 'Something went wrong.' ) );
+					return res.json( Responses[403]( 'Something went wrong.' ) );
+				}
+			} catch ( e ) {
+				next( e );
+			}
+		};
+
+	@Post( '/login' )
+	public login = async ( req: Request, res: Response, next: NextFunction ) => {
+			try {
+				const user: IUserDTO = req.user;
+				const response: IUserDTO = await this._authService.login( user );
+				if ( response ) {
+					return res.json( Responses[200]( response ) );
+				} else {
+					return res.json( Responses[403]( JSON.stringify( response ) ) );
 				}
 			} catch ( e ) {
 				next( e );

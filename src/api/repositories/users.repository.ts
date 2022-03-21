@@ -1,4 +1,4 @@
-import { UsersDTO } from 'api/dto/users.dto';
+import { UsersRegisterDTO } from 'api/dto/users.dto';
 import { Service } from 'typedi';
 import { Repository } from 'typeorm';
 import { masterDBConnection } from '../../config/db';
@@ -18,12 +18,12 @@ export class UsersRepository implements IRepository {
 		return result;
 	};
 
-	public getByEmail = async ( email: string ): Promise<UsersEntity> => {
-		const user: UsersEntity = await this.getRepository().findOne( { email } );
+	public getByEmail = async ( email: string, select?: ( keyof UsersEntity )[] ): Promise<UsersEntity> => {
+		const user: UsersEntity = await this.getRepository().findOne(  { email }, { select } );
 		return user;
 	};
 
-	public save = async ( data: UsersDTO ): Promise<UsersEntity> => {
+	public save = async ( data: UsersRegisterDTO ): Promise<UsersEntity> => {
 		const userInstance = this.getRepository().create( data );
 		const user: UsersEntity = await this.getRepository().save( userInstance );
 		return user;

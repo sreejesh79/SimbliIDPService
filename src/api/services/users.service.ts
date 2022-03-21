@@ -1,11 +1,10 @@
 import { UsersRepository } from '../repositories/users.repository';
 import { IBaseEntity } from 'entity/baseentity';
 import { Service } from 'typedi';
-import { UsersDTO } from 'api/dto/users.dto';
+import { IUserDTO, UsersRegisterDTO } from 'api/dto/users.dto';
 import { throwError } from 'config/errors';
 import { PasswordUtils } from '../../utils/password.utils';
 import { TokenUtils } from '../../utils/token.utils';
-import { IUserResponse } from 'types';
 import { KMSSignResponse } from 'api/dto/lamda.dto';
 import { Logger } from 'config/logger';
 
@@ -21,7 +20,7 @@ class UsersService {
 		return result;
 	};
 
-	public save = async ( data: UsersDTO ): Promise<IUserResponse> => {
+	public save = async ( data: UsersRegisterDTO ): Promise<IUserDTO> => {
 		const user: IBaseEntity =  await this._usersRepository.getByEmail( data.email );
 		if ( user ) {
 			return throwError( 'Email already exists.', 400 );
@@ -31,7 +30,7 @@ class UsersService {
 		data.refresh_token =  this._tokenUtils.generateRefreshToken( data.email );
 		const result: unknown = await this._usersRepository.save( data );
 		Logger.debug( JSON.stringify( result ) );
-		const userResponse: IUserResponse = <IUserResponse>result;
+		const userResponse: IUserDTO = <IUserDTO>result;
 		delete userResponse.password;
 		if ( userResponse && userResponse.id ) {
 			const kmsSignResponse: KMSSignResponse = await this._tokenUtils.generateAccessToken( userResponse.email );
@@ -40,9 +39,9 @@ class UsersService {
 		return userResponse;
 	};
 
-	public getByEmail = async ( email: string ): Promise<IUserResponse> => {
+	public getByEmail = async ( email: string ): Promise<IUserDTO> => {
 		const result: unknown =  await this._usersRepository.getByEmail( email );
-		const userResponse: IUserResponse = <IUserResponse>result;
+		const userResponse: IUserDTO = <IUserDTO>result;
 		return userResponse;
 	};
 }

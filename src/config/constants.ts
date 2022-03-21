@@ -4,6 +4,10 @@ import { Service } from 'typedi';
 export class Messages {
 	public readonly OTP_MAIL_SUBJECT: string = 'Your Confirmation Code for Simbli';
 	public readonly INVALID_VERIFYOTP: string = 'Invalid Data Found. Either an invaid email/otp or an expired otp was send.';
+	public readonly INVALID_TOKEN: string = 'Token is not valid';
+	public readonly TOKEN_BADREQUEST: string = 'Token not found in request';
+	public readonly INVALID_LOGIN: string = 'Invalid credentials found in request';
+	public readonly LOGIN_BADREQUEST: string = 'Credentials not found in request';
 }
 
 @Service()

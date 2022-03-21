@@ -50,6 +50,16 @@ export class TokenUtils {
 
     }
 
+    public verifyRegisterToken = ( token: string ): IResponse => {
+        try {
+            const secret: string = process.env.REGISTER_TOKEN_SECRET;
+            var decoded: any = jwt.verify(token, Buffer.from(secret).toString('base64') , { algorithm: 'HS256' });
+            return Responses[200](decoded);
+        } catch (e) {
+            return Responses[403](e.message);
+        }
+    }
+
     public  generateRefreshToken = ( email: string ): string => {
         const secret: string = process.env.REFRESH_TOKEN_SECRET;
         const payload: IPayload = {

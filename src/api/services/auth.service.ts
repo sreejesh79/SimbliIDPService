@@ -6,12 +6,13 @@ import { EmailsOTPRepository } from '../repositories/emailsotp.repository';
 import { EmailDTO } from '../dto/email.dto';
 import { SendGridService } from './email.service';
 import { Expiries, Messages } from 'config/constants';
-import { IResponse, IUserResponse } from 'types';
+import { IResponse } from 'types';
 import { TokenUtils } from '../../utils/token.utils';
 import Responses from 'config/responses';
 import { Logger } from 'config/logger';
 import { LamdaUtils } from '../../utils/lamda.utils';
 import { KMSSignResponse } from '../dto/lamda.dto';
+import { IUserDTO } from 'api/dto/users.dto';
 
 @Service()
 export class AuthService {
@@ -60,8 +61,18 @@ export class AuthService {
 		}
 	};
 
-	public newAccessToken = async ( user: IUserResponse ): Promise<string> => {
+	public newAccessToken = async ( user: IUserDTO ): Promise<string> => {
 		const accessToken: KMSSignResponse = await this._tokenUtils.generateAccessToken( user.email );
 		return accessToken.token;
 	};
+
+	public login = async ( user: IUserDTO ): Promise<IUserDTO> => {
+		const refreshToken: string = this._tokenUtils.generateRefreshToken( user.email );
+		const accressToken: string = await this.newAccessToken( user );
+		user.refresh_token = refreshToken;
+		user.access_token = accressToken;
+		delete user.password;
+		return user;
+	};
+
 }
