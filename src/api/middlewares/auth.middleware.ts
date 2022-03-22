@@ -88,7 +88,7 @@ export class AuthMiddleware {
 
 	@Use( '/login' )
 	public verifyLogin = async ( req: Request, res: Response, next: NextFunction ) => {
-			const deniedResponse: IResponse = Responses[403]( this._messages.INVALID_LOGIN );
+			const deniedResponse: IResponse = Responses[401]( this._messages.INVALID_LOGIN );
 			const badreqResponse: IResponse = Responses[400]( this._messages.LOGIN_BADREQUEST );
 			const loginInput: ILogin = <ILogin>req.body;
 			if ( !loginInput.email || !loginInput.password || loginInput.email === '' || loginInput.password === '' ) {

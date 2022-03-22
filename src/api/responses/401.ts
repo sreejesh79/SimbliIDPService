@@ -1,9 +1,9 @@
 import { IResponse } from 'types';
 
-export class Forbidden implements IResponse {
+export class Unauthorized implements IResponse {
 	error = true;
-	statusCode = 403;
-	statusText = 'Forbidden';
+	statusCode = 401;
+	statusText = 'Unauthorized';
 	message = '';
 	data: any = {};
 

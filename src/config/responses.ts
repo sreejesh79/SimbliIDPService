@@ -4,6 +4,7 @@ import { ServerError } from '../api/responses/500';
 import { Forbidden } from '../api/responses/403';
 import { BadRequest } from '../api/responses/400';
 import {  IResponse } from 'types';
+import { Unauthorized } from 'responses/401';
 
 class Responses {
 
@@ -20,6 +21,10 @@ class Responses {
 
 	public static 403 ( msg = '' ): IResponse {
 		return new Forbidden( msg );
+	}
+
+	public static 401 ( msg = '' ): IResponse {
+		return new Unauthorized( msg );
 	}
 
 	public static 400 ( msg = '' ): IResponse {
