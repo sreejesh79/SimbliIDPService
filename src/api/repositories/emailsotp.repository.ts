@@ -34,7 +34,7 @@ export class EmailsOTPRepository implements IRepository {
 	};
 
 	public getByOTP = async ( email: string, otp: string, currentTime: number ): Promise<EmailsotpEntity> => {
-		const verifyOtp: EmailsotpEntity = await this.getRepository().findOne( { email, otp, expiry: MoreThan( currentTime ) } );
+		const verifyOtp: EmailsotpEntity = await this.getRepository().findOne( { email, otp, otp_expiry: MoreThan( currentTime ) } );
 		return verifyOtp;
 	};
 }

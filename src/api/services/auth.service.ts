@@ -30,8 +30,8 @@ export class AuthService {
 		const otp: string = this._utilityScripts.generateOTP();
 		const otpToken: string = this._tokenUtils.generateOtpAccessToken( data.email );
 		Logger.debug( otpToken );
-		const expiry: number = this._utilityScripts.generateExpiry( this._expiries.OTP_EXPIRY );
-		const dataCopy: OtpDTO = { ...data, otp, otp_token: otpToken, expiry };
+		const otpExpiry: number = this._utilityScripts.generateExpiry( this._expiries.OTP_EXPIRY );
+		const dataCopy: OtpDTO = { ...data, otp, otp_token: otpToken, otp_expiry: otpExpiry };
 		const emailData: EmailDTO = <EmailDTO>{
 			from: process.env.FROM_EMAIL,
 			to: dataCopy.email,

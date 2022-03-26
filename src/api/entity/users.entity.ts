@@ -21,6 +21,9 @@ export class UsersEntity extends BaseEntity implements IUsersEntity {
     @Column( 'varchar' )
     	email: string;
 
+        @Column( 'varchar' )
+    	fullname: string;
+
     @Column( { type: 'varchar' } )
     	password: string;
 
@@ -30,8 +33,8 @@ export class UsersEntity extends BaseEntity implements IUsersEntity {
     @Column( 'varchar' )
     	refresh_token: string;
 
-    @ManyToMany( () => RolesEntity, ( roles ) => roles.users )
-    @JoinTable()
+    @ManyToMany( () => RolesEntity, { eager: true } )
+    @JoinTable( { name: 'users_roles' } )
     	roles: RolesEntity[];
 
     @BeforeInsert()

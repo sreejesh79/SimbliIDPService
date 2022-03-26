@@ -5,7 +5,7 @@ export interface IEmailsOTP {
     email: string;
     otp: string;
     otp_token: string;
-    expiry: number;
+    otp_expiry: number;
 }
 
 @Entity( 'emails_otp' )
@@ -20,5 +20,5 @@ export class EmailsotpEntity extends BaseEntity implements IEmailsOTP {
     	otp_token: string;
 
     @Column( 'bigint' )
-    	expiry: number;
+    	otp_expiry: number;
 }
