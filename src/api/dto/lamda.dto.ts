@@ -1,7 +1,7 @@
-import { IAccessTokenPayloadDTO, IIDTokenPayloadDTO, IMagiclinkPayloadDTO } from './auth.dto';
+import { IAccessTokenPayloadDTO, IMagiclinkPayloadDTO } from './auth.dto';
 
 export interface KMSSignDTO {
-    payload: IMagiclinkPayloadDTO | IIDTokenPayloadDTO | IAccessTokenPayloadDTO;
+    payload: IMagiclinkPayloadDTO | IAccessTokenPayloadDTO;
     headers: IKMSHeaders;
 }
 
