@@ -6,7 +6,7 @@ import { Service } from 'typedi';
 @Service()
 export class PasswordUtils {
 
-	public static hashPassword = async ( password: string ): Promise<string> => {
+	public  hashPassword = async ( password: string ): Promise<string> => {
 		const rounds = 10;
 		const salt = await bcrypt.genSalt( rounds );
 		const passwordHash: string = await bcrypt.hash( password, salt );

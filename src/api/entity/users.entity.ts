@@ -3,8 +3,6 @@ import { Entity, Column, AfterLoad, BeforeInsert, ManyToMany, JoinTable } from '
 import { TokenUtils } from '../../utils/token.utils';
 import { PasswordUtils } from '../../utils/password.utils';
 import { BaseEntity } from './baseentity';
-import { Logger } from 'config/logger';
-import bcrypt from 'bcrypt';
 import { RolesEntity } from './roles.entity';
 
 export interface IUsersEntity {
@@ -39,7 +37,7 @@ export class UsersEntity extends BaseEntity implements IUsersEntity {
 
     @BeforeInsert()
     async hashPassword () {
-    	this.password = await PasswordUtils.hashPassword( this.password );
+    	// this.password = await PasswordUtils.hashPassword( this.password );
     }
 
     @AfterLoad()

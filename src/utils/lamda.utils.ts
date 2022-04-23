@@ -4,6 +4,7 @@ import { Logger } from 'config/logger';
 import { Service } from 'typedi';
 import { HTTPUtils } from './http.utils';
 import { KMSSignDTO } from '../api/dto/lamda.dto';
+import { AxiosRequestHeaders } from 'axios';
 
 @Service()
 export class LamdaUtils extends HTTPUtils {
@@ -40,8 +41,11 @@ export class LamdaUtils extends HTTPUtils {
 	}
 
 	public kmsJwtSign = async ( data: KMSSignDTO ): Promise<any> => {
-		const response: any = await this.axiosApi.post( `${this.baseURL}/sign`, data );
-		Logger.debug( `response: ${response}` );
+		const headers: unknown = data.headers;
+		const response: any = await this.axiosApi.post( `${this.baseURL}/sign`, data.payload, {
+			headers: <AxiosRequestHeaders>headers
+		} );
+		Logger.debug( `response: ${JSON.stringify(response)}` );
 		return response;
 	};
 

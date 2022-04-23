@@ -13,6 +13,8 @@ import { Logger } from 'config/logger';
 import { LamdaUtils } from '../../utils/lamda.utils';
 import { KMSSignResponse } from '../dto/lamda.dto';
 import { IUserDTO } from 'api/dto/users.dto';
+import { IAccessTokenPayloadDTO, IMagiclinkPayloadDTO } from 'api/dto/auth.dto';
+import { PasswordUtils } from '../../utils/password.utils';
 
 @Service()
 export class AuthService {
@@ -22,14 +24,13 @@ export class AuthService {
         private _tokenUtils: TokenUtils,
         private _emailService: SendGridService,
         private _messages: Messages,
-		private _lamdaUtils: LamdaUtils,
+		private _passwordUtils: PasswordUtils,
 		private _expiries: Expiries
 	) { }
 
 	public sendOtp = async ( data: OtpDTO ): Promise<IResponse> => {
 		const otp: string = this._utilityScripts.generateOTP();
 		const otpToken: string = this._tokenUtils.generateOtpAccessToken( data.email );
-		Logger.debug( otpToken );
 		const otpExpiry: number = this._utilityScripts.generateExpiry( this._expiries.OTP_EXPIRY );
 		const dataCopy: OtpDTO = { ...data, otp, otp_token: otpToken, otp_expiry: otpExpiry };
 		const emailData: EmailDTO = <EmailDTO>{
@@ -62,8 +63,8 @@ export class AuthService {
 	};
 
 	public newAccessToken = async ( user: IUserDTO ): Promise<string> => {
-		const accessToken: KMSSignResponse = await this._tokenUtils.generateAccessToken( user.email );
-		return accessToken.token;
+		const accessToken: KMSSignResponse = await this._tokenUtils.generateAccessToken( <IAccessTokenPayloadDTO>{ email: user.email } );
+		return '';// accessToken.token;
 	};
 
 	public login = async ( user: IUserDTO ): Promise<IUserDTO> => {
@@ -73,6 +74,18 @@ export class AuthService {
 		user.access_token = accressToken;
 		delete user.password;
 		return user;
+	};
+
+	public createMagicLink = async ( payload: IMagiclinkPayloadDTO ): Promise<IResponse> => {
+		payload.password = await this._passwordUtils.hashPassword( payload.password );
+		const tokenResponse: KMSSignResponse = await this._tokenUtils.generateMagicLinkToken( payload );
+		Logger.debug( tokenResponse );
+		if ( tokenResponse && tokenResponse.token ) {
+			const magicLink = `${process.env.MASTER_HOST}/sign?token=${tokenResponse.token}`;
+			return Responses[200]( magicLink );
+		} else {
+			return Responses[500]( JSON.stringify( tokenResponse ) );
+		}
 	};
 
 }

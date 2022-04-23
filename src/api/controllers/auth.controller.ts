@@ -9,6 +9,7 @@ import UsersService from '../services/users.service';
 import { IUserDTO, UsersRegisterDTO } from '../dto/users.dto';
 import Responses from 'config/responses';
 import { Logger } from 'config/logger';
+import { IMagiclinkPayloadDTO } from 'api/dto/auth.dto';
 
 @Controller( '/auth' )
 @Service()
@@ -79,6 +80,16 @@ export default class AuthController {
 				} else {
 					return res.json( Responses[403]( JSON.stringify( response ) ) );
 				}
+			} catch ( e ) {
+				next( e );
+			}
+		};
+
+	@Post( '/link' )
+	public link = async ( req: Request, res: Response, next: NextFunction ) => {
+			try {
+				const linkResponse: IResponse = await this._authService.createMagicLink( <IMagiclinkPayloadDTO>req.body );
+				return res.status( linkResponse.statusCode ).json( linkResponse );
 			} catch ( e ) {
 				next( e );
 			}

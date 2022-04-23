@@ -34,8 +34,8 @@ class UsersService {
 		const userResponse: IUserDTO = <IUserDTO>result;
 		delete userResponse.password;
 		if ( userResponse && userResponse.id ) {
-			const kmsSignResponse: KMSSignResponse = await this._tokenUtils.generateAccessToken( userResponse.email );
-			userResponse.access_token = kmsSignResponse.token;
+			// const kmsSignResponse: KMSSignResponse = await this._tokenUtils.generateAccessToken( userResponse.email );
+			userResponse.access_token = '';// kmsSignResponse.token;
 		}
 		return userResponse;
 	};

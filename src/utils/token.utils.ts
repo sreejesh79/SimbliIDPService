@@ -4,8 +4,10 @@ import * as jwt from 'jsonwebtoken';
 import Responses from 'config/responses';
 import { IResponse } from 'types';
 import { Expiries } from 'config/constants';
-import { KMSSignDTO, KMSSignResponse } from '../api/dto/lamda.dto';
+import { IKMSHeaders, KMSSignDTO, KMSSignResponse } from '../api/dto/lamda.dto';
 import { LamdaUtils } from './lamda.utils';
+import { IAccessTokenPayloadDTO, IMagiclinkPayloadDTO } from 'api/dto/auth.dto';
+import { Logger } from 'config/logger';
 
 @Service()
 export class TokenUtils {
@@ -82,17 +84,37 @@ export class TokenUtils {
         }
     }
 
-    public generateAccessToken = async ( email: string ): Promise<KMSSignResponse> => {
-        const accessToken: KMSSignResponse =  <KMSSignResponse>await this._lamdaUtils.kmsJwtSign( <KMSSignDTO>{ email });
+    public generateAccessToken = async ( payload: IAccessTokenPayloadDTO ): Promise<KMSSignResponse> => {
+        const headers: IKMSHeaders = {
+            keyId: process.env.ACCESSTOKEN_KEY_ID
+        }
+        const kmsSignData: KMSSignDTO = {
+            payload,
+            headers
+        }
+        const accessToken: KMSSignResponse =  <KMSSignResponse>await this._lamdaUtils.kmsJwtSign( kmsSignData );
         return accessToken;
     }
 
+    public generateMagicLinkToken = async ( payload: IMagiclinkPayloadDTO): Promise<KMSSignResponse> => {
+        const headers: IKMSHeaders = {
+            keyId: process.env.MAGICLINK_KEY_ID
+        }
+        const kmsSignData: KMSSignDTO = {
+            payload,
+            headers
+        }
+        Logger.debug(headers);
+        const magicLinkToken: KMSSignResponse = <KMSSignResponse>await this._lamdaUtils.kmsJwtSign(kmsSignData);
+        return magicLinkToken
+    }
     public generateH256Token = ( payload: IPayload, secret: string ): string => {
         return jwt.sign( payload, Buffer.from(secret).toString('base64'), {
 			algorithm: 'HS256',
 			subject: JSON.stringify( payload )
 		} );
     }
+
 
 }
 
