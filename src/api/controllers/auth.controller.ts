@@ -4,7 +4,7 @@ import { Service } from 'typedi';
 import { Get, Post } from '../../decorators/route.decorator';
 import { IResponse } from 'types';
 import { AuthService } from '../services/auth.service';
-import { OtpDTO } from '../dto/otp.dto';
+import { OtpDTO, OtpMobileDTO, VerifyOtpMobileDTO } from '../dto/otp.dto';
 import UsersService from '../services/users.service';
 import { IUserDTO, UsersRegisterDTO } from '../dto/users.dto';
 import Responses from 'config/responses';
@@ -94,4 +94,24 @@ export default class AuthController {
 				next( e );
 			}
 		};
+		@Post( '/mobile/otp' )
+	public mobileOtp =async  ( req: Request, res: Response, next: NextFunction ) => {
+				try{
+					const otpResponse: IResponse = await this._authService.sendMobileOtp( <OtpMobileDTO>req.body );
+					return res.status ( otpResponse.statusCode ).json( otpResponse.data );
+				}
+				catch( e ) {
+					next( e );
+				}
+			};
+			@Post( '/mobile/otp/verify' )
+		public verifyMobileOtp = async   ( req: Request, res: Response, next: NextFunction ) => {
+					try{
+						const verifyOtpResponse: IResponse = await this._authService.verifyMobileOtp( <VerifyOtpMobileDTO>req.body );
+						return res.status ( verifyOtpResponse.statusCode ).json( verifyOtpResponse.data );
+					}
+					catch( e ) {
+						next( e );
+					}
+				};
 }

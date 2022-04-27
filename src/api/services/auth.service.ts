@@ -1,7 +1,7 @@
 import { IBaseEntity } from '../entity/baseentity';
 import { Service } from 'typedi';
 import { UtilityScripts } from '../../utils/utilityscripts.utils';
-import { OtpDTO } from '../dto/otp.dto';
+import { OtpDTO, OtpMobileDTO, VerifyOtpMobileDTO } from '../dto/otp.dto';
 import { EmailsOTPRepository } from '../repositories/emailsotp.repository';
 import { EmailDTO } from '../dto/email.dto';
 import { SendGridService } from './email.service';
@@ -16,6 +16,7 @@ import { IUserDTO } from 'api/dto/users.dto';
 import { IAccessTokenPayloadDTO, ICryptoDTO, IMagiclinkPayloadDTO } from 'api/dto/auth.dto';
 import { PasswordUtils } from '../../utils/password.utils';
 import { CryptoUtils } from '../../utils/crypto.utils';
+import { TwilioUtils } from '../../utils/sms.utils';
 
 @Service()
 export class AuthService {
@@ -27,7 +28,8 @@ export class AuthService {
         private _messages: Messages,
 		private _passwordUtils: PasswordUtils,
 		private _cryptoUtils: CryptoUtils,
-		private _expiries: Expiries
+		private _expiries: Expiries,
+		private _twilioUtils: TwilioUtils,
 	) { }
 
 	public sendOtp = async ( data: OtpDTO ): Promise<IResponse> => {
@@ -51,6 +53,23 @@ export class AuthService {
 			}
 		}
 		return emailResponse;
+	};
+
+	public sendMobileOtp = async ( body: OtpMobileDTO ): Promise<IResponse>=>{
+		const twilioOtpResponse = await this._twilioUtils.sendOtp( body.mobile );
+		if( twilioOtpResponse ) {
+			return Responses[200]( twilioOtpResponse );
+		}else{
+			return Responses[400]( this._messages.INVALID_MOBILENUMBER );
+		}
+	};
+	public verifyMobileOtp = async ( body: VerifyOtpMobileDTO ): Promise<IResponse>=>{
+		const twilioVerifyOtpResponse = await this._twilioUtils.verifyOtp( body.mobile ,body.otp );
+		if( twilioVerifyOtpResponse ) {
+			return Responses[200]( twilioVerifyOtpResponse );
+		}else{
+			return Responses[400]( this._messages.INVALID_MOBILENUMBER );
+		}
 	};
 
 	public verifyOtp = async ( data: OtpDTO ): Promise<IResponse> => {

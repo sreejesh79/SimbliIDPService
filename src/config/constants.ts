@@ -8,6 +8,7 @@ export class Messages {
 	public readonly TOKEN_BADREQUEST: string = 'Token not found in request';
 	public readonly INVALID_LOGIN: string = 'Either your Email or password is wrong';
 	public readonly LOGIN_BADREQUEST: string = 'Credentials not found in request';
+	public readonly INVALID_MOBILENUMBER: string = 'Invalid Data Found. Either an invaid mobile/otp or an expired otp was send.';
 }
 
 @Service()

@@ -4,3 +4,10 @@ export interface OtpDTO {
     otp_token?: string;
     otp_expiry?: number;
 }
+export interface OtpMobileDTO {
+    mobile: string;
+}
+export interface VerifyOtpMobileDTO {
+    mobile: string;
+    otp: string
+}
