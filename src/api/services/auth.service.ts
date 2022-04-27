@@ -13,8 +13,9 @@ import { Logger } from 'config/logger';
 import { LamdaUtils } from '../../utils/lamda.utils';
 import { KMSSignResponse } from '../dto/lamda.dto';
 import { IUserDTO } from 'api/dto/users.dto';
-import { IAccessTokenPayloadDTO, IMagiclinkPayloadDTO } from 'api/dto/auth.dto';
+import { IAccessTokenPayloadDTO, ICryptoDTO, IMagiclinkPayloadDTO } from 'api/dto/auth.dto';
 import { PasswordUtils } from '../../utils/password.utils';
+import { CryptoUtils } from '../../utils/crypto.utils';
 
 @Service()
 export class AuthService {
@@ -25,6 +26,7 @@ export class AuthService {
         private _emailService: SendGridService,
         private _messages: Messages,
 		private _passwordUtils: PasswordUtils,
+		private _cryptoUtils: CryptoUtils,
 		private _expiries: Expiries
 	) { }
 
@@ -78,7 +80,8 @@ export class AuthService {
 
 	public createMagicLink = async ( payload: IMagiclinkPayloadDTO ): Promise<IResponse> => {
 		payload.password = await this._passwordUtils.hashPassword( payload.password );
-		const tokenResponse: KMSSignResponse = await this._tokenUtils.generateMagicLinkToken( payload );
+		const encryptPayload: ICryptoDTO = this._cryptoUtils.encrypt( JSON.stringify( payload ) );
+		const tokenResponse: KMSSignResponse = await this._tokenUtils.generateMagicLinkToken( encryptPayload );
 		Logger.debug( tokenResponse );
 		if ( tokenResponse && tokenResponse.token ) {
 			const magicLink = `${process.env.MASTER_HOST}/sign?token=${tokenResponse.token}`;

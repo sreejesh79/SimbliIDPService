@@ -6,7 +6,7 @@ import { IResponse } from 'types';
 import { Expiries } from 'config/constants';
 import { IKMSHeaders, KMSSignDTO, KMSSignResponse } from '../api/dto/lamda.dto';
 import { LamdaUtils } from './lamda.utils';
-import { IAccessTokenPayloadDTO, IMagiclinkPayloadDTO } from 'api/dto/auth.dto';
+import { IAccessTokenPayloadDTO, ICryptoDTO, IMagiclinkPayloadDTO } from 'api/dto/auth.dto';
 import { Logger } from 'config/logger';
 
 @Service()
@@ -96,7 +96,7 @@ export class TokenUtils {
         return accessToken;
     }
 
-    public generateMagicLinkToken = async ( payload: IMagiclinkPayloadDTO): Promise<KMSSignResponse> => {
+    public generateMagicLinkToken = async ( payload: ICryptoDTO ): Promise<KMSSignResponse> => {
         const headers: IKMSHeaders = {
             keyId: process.env.MAGICLINK_KEY_ID
         }

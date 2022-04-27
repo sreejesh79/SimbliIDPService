@@ -19,3 +19,20 @@ export interface IAccessTokenPayloadDTO {
 export interface IMagiclinkDTO {
     token: string;
 }
+
+export interface ICryptoDTO {
+    iv: string;
+    content: string
+}
+
+export interface IOnboardingDTO {
+    mobile: string;
+    mobile_otp: string;
+    otp_token: string;
+    mobile_verified: number;
+    email?: string;
+    register_token?: string;
+    link_roken?: string;
+    link?: string;
+    email_verified?: number;
+}
