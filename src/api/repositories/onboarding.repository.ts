@@ -5,7 +5,7 @@ import { Service } from 'typedi';
 import { Repository } from 'typeorm';
 import { OnboardingEntity } from "../entity/onboarding.entity";
 import { masterDBConnection } from '../../config/db';
-import { IOnboardingDTO } from "api/dto/auth.dto";
+import { IMobileDTO, IOnboardingDTO } from "api/dto/auth.dto";
 
 @Service()
 export class OnboardingRepository implements IRepository {
@@ -17,6 +17,10 @@ export class OnboardingRepository implements IRepository {
     }
 
     public save = async (data: IOnboardingDTO): Promise<OnboardingEntity> => {
+        const onboardingInstance: OnboardingEntity = this.getRepository().create(data);
+        return await this.getRepository().save(onboardingInstance);
+    }
+    public saveMobile = async (data: IMobileDTO): Promise<OnboardingEntity> => {
         const onboardingInstance: OnboardingEntity = this.getRepository().create(data);
         return await this.getRepository().save(onboardingInstance);
     }

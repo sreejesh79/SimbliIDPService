@@ -36,3 +36,14 @@ export interface IOnboardingDTO {
     link?: string;
     email_verified?: number;
 }
+export interface IMobileDTO {
+    mobile: string;
+    mobile_otp?: string;
+    otp_token: string;
+    mobile_verified: number;
+    email?: string;
+    register_token?: string;
+    link_roken?: string;
+    link?: string;
+    email_verified?: number;
+}

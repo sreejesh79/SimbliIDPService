@@ -17,11 +17,13 @@ import { IAccessTokenPayloadDTO, ICryptoDTO, IMagiclinkPayloadDTO } from 'api/dt
 import { PasswordUtils } from '../../utils/password.utils';
 import { CryptoUtils } from '../../utils/crypto.utils';
 import { TwilioUtils } from '../../utils/sms.utils';
+import { OnboardingRepository } from '../repositories/onboarding.repository';
 
 @Service()
 export class AuthService {
 	constructor (
         private _emailOtpRepo: EmailsOTPRepository,
+        private _mobileOtpRepo: OnboardingRepository,
         private _utilityScripts: UtilityScripts,
         private _tokenUtils: TokenUtils,
         private _emailService: SendGridService,
@@ -55,12 +57,22 @@ export class AuthService {
 		return emailResponse;
 	};
 
-	public sendMobileOtp = async ( body: OtpMobileDTO ): Promise<IResponse>=>{
-		const twilioOtpResponse = await this._twilioUtils.sendOtp( body.mobile );
-		if( twilioOtpResponse ) {
-			return Responses[200]( twilioOtpResponse );
-		}else{
-			return Responses[400]( this._messages.INVALID_MOBILENUMBER );
+	public sendMobileOtp = async ( data: OtpMobileDTO ): Promise<IResponse>=>{
+		try{
+			const twilioOtpResponse = await this._twilioUtils.sendOtp( data.mobile );
+			const otpToken: string = this._tokenUtils.generateOtpAccessToken( data.mobile );
+			const otpExpiry: number = this._utilityScripts.generateExpiry( this._expiries.OTP_EXPIRY );
+			const dataCopy: OtpMobileDTO = { ...data, otp_token: otpToken, otp_expiry: otpExpiry };
+			const mobileOTPResponse: IBaseEntity = await this._mobileOtpRepo.saveMobile( dataCopy );
+			Logger.info( mobileOTPResponse );
+			if( twilioOtpResponse ) {
+				// const mobileOtpResponse :IBaseEntity = await this._mobileOtpRepo
+				return Responses[200]( twilioOtpResponse );
+			}else{
+				return Responses[400]( this._messages.INVALID_MOBILENUMBER );
+			}
+		}catch( e ) {
+			throw( e );
 		}
 	};
 	public verifyMobileOtp = async ( body: VerifyOtpMobileDTO ): Promise<IResponse>=>{
