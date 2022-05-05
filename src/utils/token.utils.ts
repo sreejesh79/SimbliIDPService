@@ -28,7 +28,15 @@ export class TokenUtils {
         }
 		return this.generateH256Token( payload, secret);
 	};
-
+    public generateMobileOtpAccessToken = ( mobile: string ): string => {
+        const secret: string = process.env.OTP_ACCESS_TOKEN_SECRET;
+        const payload: IMobilePayload = {
+            mobile,
+            iat: Math.floor(Date.now() / 1000),
+            exp: Math.floor(Date.now() / 1000) + (this._expiries.OTP_TOKEN_EXPIRY)
+        }
+		return this.generateMobileH256Token( payload, secret);
+	};
     public verifyOtpAccessToken = (token: string): IResponse => {
         try {
             const secret: string = process.env.OTP_ACCESS_TOKEN_SECRET;
@@ -114,6 +122,12 @@ export class TokenUtils {
 			subject: JSON.stringify( payload )
 		} );
     }
+    public generateMobileH256Token = ( payload: IMobilePayload, secret: string ): string => {
+        return jwt.sign( payload, Buffer.from(secret).toString('base64'), {
+			algorithm: 'HS256',
+			subject: JSON.stringify( payload )
+		} );
+    }
 
 
 }
@@ -124,3 +138,8 @@ export interface IPayload {
     exp: number
 }
 
+export interface IMobilePayload {
+    mobile: string,
+    iat: number,
+    exp: number
+}

@@ -11,7 +11,9 @@ export interface OtpMobileDTO {
     otp_expiry?: number;
     mobile_verified: number
 }
-export interface VerifyOtpMobileDTO {
-    mobile: string;
+export interface IMobileDTO {
+    mobile: string,
+    otp_token: string,
+    mobile_verified: number,
     otp: string
 }

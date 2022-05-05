@@ -24,4 +24,9 @@ export class OnboardingRepository implements IRepository {
         const onboardingInstance: OnboardingEntity = this.getRepository().create(data);
         return await this.getRepository().save(onboardingInstance);
     }
+    public getByToken = async ( otp_token: string ): Promise<OnboardingEntity> => {
+		const result: OnboardingEntity = await this.getRepository().findOne( { otp_token } );
+		return result;
+	};
+
 }
