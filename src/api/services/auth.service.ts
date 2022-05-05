@@ -59,13 +59,13 @@ export class AuthService {
 
 	public sendMobileOtp = async ( data: OtpMobileDTO ): Promise<IResponse>=>{
 		try{
-			const twilioOtpResponse = await this._twilioUtils.sendOtp( data.mobile );
+			const twilioOtpResponse: IResponse = await this._twilioUtils.sendOtp( data.mobile );
 			const otpToken: string = this._tokenUtils.generateOtpAccessToken( data.mobile );
 			const otpExpiry: number = this._utilityScripts.generateExpiry( this._expiries.OTP_EXPIRY );
 			const dataCopy: OtpMobileDTO = { ...data, otp_token: otpToken, otp_expiry: otpExpiry };
 			const mobileOTPResponse: IBaseEntity = await this._mobileOtpRepo.saveMobile( dataCopy );
 			Logger.info( mobileOTPResponse );
-			if( twilioOtpResponse ) {
+			if( twilioOtpResponse &&  !twilioOtpResponse.error ) {
 				// const mobileOtpResponse :IBaseEntity = await this._mobileOtpRepo
 				return Responses[200]( twilioOtpResponse );
 			}else{

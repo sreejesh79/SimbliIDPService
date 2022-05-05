@@ -39,12 +39,16 @@ class DB {
 			synchronize: true	
 		}
 
-		this._connections = await createConnections( [
-			this._masterDB,
-			this._mongoDB
-		] );
-		console.log( '\x1b[35mINFO\x1b[0m', `Master DB successfully connected to ${process.env.MASTER_DB_HOST}:${process.env.MASTER_DB_PORT}` );
-		console.log( '\x1b[35mINFO\x1b[0m', `Mongo DB successfully connected to ${process.env.MONGO_DB_HOST}:${process.env.MONGO_DB_PORT}` );
+		try {
+			this._connections = await createConnections( [
+				this._masterDB,
+				this._mongoDB
+			] );
+			console.log( '\x1b[35mINFO\x1b[0m', `Master DB successfully connected to ${process.env.MASTER_DB_HOST}:${process.env.MASTER_DB_PORT}` );
+			console.log( '\x1b[35mINFO\x1b[0m', `Mongo DB successfully connected to ${process.env.MONGO_DB_HOST}:${process.env.MONGO_DB_PORT}` );
+		} catch (e) {
+			console.log(e);
+		}
 	}
 
 	public static get connections (): any {
