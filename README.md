@@ -8,4 +8,4 @@ yarn start
 ## To Run in Test Mode
 docker compose up
 ## To build for Production
-yarn build
+yarn build 
