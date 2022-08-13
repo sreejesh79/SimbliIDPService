@@ -1,4 +1,5 @@
 import { IUserDTO } from 'api/dto/users.dto';
+import {IMobileDTO} from 'api/dto/otp.dto'
 
     declare namespace NodeJS {
         export interface Global {
@@ -10,7 +11,8 @@ import { IUserDTO } from 'api/dto/users.dto';
         namespace Express {
           interface Request {
             user: IUserDTO;
-          }
+            mobileOtp: IMobileDTO;
+           }
         }
       }
 

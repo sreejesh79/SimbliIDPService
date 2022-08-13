@@ -1,7 +1,7 @@
 import { IBaseEntity } from '../entity/baseentity';
 import { Service } from 'typedi';
 import { UtilityScripts } from '../../utils/utilityscripts.utils';
-import { OtpDTO, OtpMobileDTO, VerifyOtpMobileDTO } from '../dto/otp.dto';
+import { OtpDTO, OtpMobileDTO } from '../dto/otp.dto';
 import { EmailsOTPRepository } from '../repositories/emailsotp.repository';
 import { EmailDTO } from '../dto/email.dto';
 import { SendGridService } from './email.service';
@@ -59,15 +59,16 @@ export class AuthService {
 
 	public sendMobileOtp = async ( data: OtpMobileDTO ): Promise<IResponse>=>{
 		try{
-			const twilioOtpResponse: IResponse = await this._twilioUtils.sendOtp( data.mobile );
-			const otpToken: string = this._tokenUtils.generateOtpAccessToken( data.mobile );
+			const otpToken: string = this._tokenUtils.generateMobileOtpAccessToken( data.mobile );
 			const otpExpiry: number = this._utilityScripts.generateExpiry( this._expiries.OTP_EXPIRY );
-			const dataCopy: OtpMobileDTO = { ...data, otp_token: otpToken, otp_expiry: otpExpiry };
+			const mobileVerified = 0;
+			const dataCopy: OtpMobileDTO = { ...data, otp_token: otpToken, mobile_verified:mobileVerified,otp_expiry: otpExpiry };
 			const mobileOTPResponse: IBaseEntity = await this._mobileOtpRepo.saveMobile( dataCopy );
 			Logger.info( mobileOTPResponse );
-			if( twilioOtpResponse &&  !twilioOtpResponse.error ) {
-				// const mobileOtpResponse :IBaseEntity = await this._mobileOtpRepo
-				return Responses[200]( twilioOtpResponse );
+			if( mobileOTPResponse &&  mobileOTPResponse['_id'] ) {
+				 const twilioOtpResponse: IResponse = await this._twilioUtils.sendOtp( data.mobile );
+				// Logger.info( twilioOtpResponse );
+				return Responses[200]( mobileOTPResponse );
 			}else{
 				return Responses[400]( this._messages.INVALID_MOBILENUMBER );
 			}
@@ -75,8 +76,11 @@ export class AuthService {
 			throw( e );
 		}
 	};
-	public verifyMobileOtp = async ( body: VerifyOtpMobileDTO ): Promise<IResponse>=>{
-		const twilioVerifyOtpResponse = await this._twilioUtils.verifyOtp( body.mobile ,body.otp );
+	public verifyMobileOtp = async ( data: OtpMobileDTO ): Promise<IResponse>=>{
+		 const currentTime: number =  new Date().getTime();
+		Logger.info( data );
+
+		 const twilioVerifyOtpResponse = await this._twilioUtils.verifyOtp( data.mobile ,data.otp );
 		if( twilioVerifyOtpResponse ) {
 			return Responses[200]( twilioVerifyOtpResponse );
 		}else{
