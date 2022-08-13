@@ -20,6 +20,9 @@ export class OnboardingEntity extends BaseEntity implements IOnboardingEntity {
     	_id: ObjectID;
 
     @Column( 'string' )
+    	email_otp: string;
+
+    @Column( 'string' )
     	mobile: string;
 
     @Column( 'string' )

@@ -24,7 +24,7 @@ class DB {
 			username: process.env.MASTER_DB_USER,
 			password: process.env.MASTER_DB_PASSWORD,
 			database: process.env.MASTER_DATABASE,
-			entities: [UsersEntity, RolesEntity, EmailsotpEntity]
+			entities: [UsersEntity, RolesEntity]
 		};
 
 		DB._mongoDB = {
